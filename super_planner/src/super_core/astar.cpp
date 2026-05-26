@@ -32,7 +32,7 @@ namespace path_search {
 
     Astar::Astar(const std::string &cfg_path,
                  const ros_interface::RosInterface::Ptr &ros_ptr,
-                 rog_map::ROGMapROS::Ptr rm) : ros_ptr_(ros_ptr), map_ptr_(rm) {
+                 rog_map::ROGMapROS::Ptr rm) : map_ptr_(rm), ros_ptr_(ros_ptr) {
         cfg_ = PathSearchConfig(cfg_path);
         cout << rog_map::GREEN << " -- [RM] Init Astar-map." << rog_map::RESET << endl;
         int map_buffer_size = cfg_.map_voxel_num(0) * cfg_.map_voxel_num(1) * cfg_.map_voxel_num(2);
@@ -548,7 +548,7 @@ namespace path_search {
     }
 
     RET_CODE Astar::escapePathSearch(const rog_map::Vec3f &start_pt, const int flag, rog_map::vec_Vec3f &out_path) {
-        Vec3f tmp;
+        Vec3f tmp = Vec3f::Zero();
         RET_CODE setup_ret = setup(start_pt, tmp, flag, 999);
         if (setup_ret != SUCCESS) {
             return setup_ret;
